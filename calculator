@@ -1,0 +1,69 @@
+def calculator():
+    print("\nWelcome to the Smart Calculator!")
+
+    while True:  # Outer loop to keep the calculator running
+        print("\nChoose an operation:")
+        print("1 ➝ Add (+)")
+        print("2 ➝ Subtract (-)")
+        print("3 ➝ Multiply (*)")
+        print("4 ➝ Divide (/)")
+        print("5 ➝ Remainder (%)")
+        print("6 ➝ Percentage")
+        print("0 ➝ Exit")
+
+        choice = input("Enter your choice: ")
+
+        if choice == "0":
+            print("\nThank you for using the calculator. Goodbye!")
+            break  # Exit the outer loop
+
+        if choice not in ["1", "2", "3", "4", "5", "6"]:
+            print("Invalid choice. Try again.")
+            continue  # Restart outer loop
+
+        # Nested loop to ensure valid number inputs
+        while True:
+            num1 = input("Enter first number: ")
+            num2 = input("Enter second number: ")
+
+            if num1.replace(".", "").isdigit() and num2.replace(".", "").isdigit():
+                num1 = float(num1)
+                num2 = float(num2)
+                break  # Exit inner loop if input is valid
+            else:
+                print("Invalid input! Please enter numbers only.")
+
+        while True:  # Inner loop for calculations
+            if choice == "1":
+                result = num1 + num2
+                print(f"Result: {num1} + {num2} = {result}")
+            elif choice == "2":
+                result = num1 - num2
+                print(f"Result: {num1} - {num2} = {result}")
+            elif choice == "3":
+                result = num1 * num2
+                print(f"Result: {num1} * {num2} = {result}")
+            elif choice == "4":
+                if num2 == 0:
+                    print("Error: Cannot divide by zero!")
+                else:
+                    result = num1 / num2
+                    print(f"Result: {num1} / {num2} = {result}")
+            elif choice == "5":
+                if num2 == 0:
+                    print("Error: Cannot find remainder with zero!")
+                else:
+                    result = num1 % num2
+                    print(f"Result: The remainder when {num1} is divided by {num2} is {result}")
+            elif choice == "6":
+                if num2 == 0:
+                    print("Error: Cannot calculate percentage with zero!")
+                else:
+                    result = (num1 / num2) * 100
+                    print(f"Result: {num1} is {result}% of {num2}")
+
+            again = input("\nDo you want to calculate again? (yes/no): ").lower()
+            if again != "yes":
+                break  # Exit inner calculation loop
+
+calculator()
