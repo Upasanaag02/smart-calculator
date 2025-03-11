@@ -1,0 +1,148 @@
+def calculator():
+    print("\nWelcome to the Smart Calculator!")
+
+    while True:  
+        print("\nChoose an operation:")
+        print("1 ➝ Add (+)")
+        print("2 ➝ Subtract (-)")
+        print("3 ➝ Multiply (*)")
+        print("4 ➝ Divide (/)")
+        print("5 ➝ Remainder (%)")
+        print("6 ➝ Percentage")
+        print("0 ➝ Exit")
+
+        choice = input("Enter your choice: ")
+
+        if choice == "0":
+            print("\nExiting Calculator...")
+            break  
+
+        if choice not in ["1", "2", "3", "4", "5", "6"]:
+            print("Invalid choice. Try again.")
+            continue  
+
+        num1 = input("Enter first number: ")
+        num2 = input("Enter second number: ")
+
+        if "." in num1 or "." in num2:
+            num1 = float(num1)
+            num2 = float(num2)
+        else:
+            num1 = int(num1)
+            num2 = int(num2)
+
+        if choice == "1":
+            result = num1 + num2
+            print(f"Result: {num1} + {num2} = {result}")
+        elif choice == "2":
+            result = num1 - num2
+            print(f"Result: {num1} - {num2} = {result}")
+        elif choice == "3":
+            result = num1 * num2
+            print(f"Result: {num1} * {num2} = {result}")
+        elif choice == "4":
+            if num2 == 0:
+                print("Error: Cannot divide by zero!")
+            else:
+                result = num1 / num2
+                print(f"Result: {num1} / {num2} = {result}")
+        elif choice == "5":
+            if num2 == 0:
+                print("Error: Cannot find remainder with zero!")
+            elif isinstance(num1, float) or isinstance(num2, float):  
+                print("Error: Remainder operation is only for integers!")
+            else:
+                result = num1 % num2
+                print(f"Result: The remainder when {num1} is divided by {num2} is {result}")
+        elif choice == "6":
+            if num2 == 0:
+                print("Error: Cannot calculate percentage with zero!")
+            else:
+                result = (num1 / num2) * 100
+                print(f"Result: {num1} is {result}% of {num2}")
+
+def select_outlet():
+    print("\nWelcome to the Food Outlet System!")
+    print("\nChoose your outlet type:")
+    print("1 ➝ Fast Food")
+    print("2 ➝ Cafe")
+    print("3 ➝ Fine Dining")
+
+    outlet_choice = input("Enter your choice: ")
+
+    if outlet_choice == "1":
+        return "Fast Food", {
+            "Burger": 150,
+            "Fries": 80,
+            "Pizza": 300,
+            "Soft Drink": 50
+        }
+    elif outlet_choice == "2":
+        return "Cafe", {
+            "Coffee": 120,
+            "Tea": 70,
+            "Sandwich": 180,
+            "Pastry": 150
+        }
+    elif outlet_choice == "3":
+        return "Fine Dining", {
+            "Steak": 800,
+            "Pasta": 450,
+            "Wine": 1000,
+            "Soup": 250
+        }
+    else:
+        print("Invalid choice. Try again.")
+        return select_outlet()
+
+def display_menu(menu):
+    print("\nMenu:")
+    for item, price in menu.items():
+        print(f"{item} - ₹{price}")
+
+def take_order(menu):
+    order = {}
+    while True:
+        item = input("\nEnter the item you want to order (or type 'done' to finish): ").strip()
+        if item.lower() == "done":
+            break
+        if item in menu:
+            quantity = input(f"Enter quantity for {item}: ")
+            order[item] = int(quantity)
+        else:
+            print("Item not available. Please choose from the menu.")
+    return order
+
+def calculate_bill(order, menu):
+    total = 0
+    print("\nYour Order Summary:")
+    for item, quantity in order.items():
+        price = menu[item] * quantity
+        total += price
+        print(f"{item} x{quantity} - ₹{price}")
+    
+    print(f"\nTotal Bill: ₹{total}")
+    return total
+
+def main():
+    outlet_name, menu = select_outlet()
+    print(f"\nYou have selected: {outlet_name}")
+    display_menu(menu)
+    order = take_order(menu)
+    
+    if order:
+        total_bill = calculate_bill(order, menu)
+
+        while True:
+            use_calculator = input("\nDo you want to use the calculator for bill calculations? (yes/no): ").strip().lower()
+            if use_calculator == "yes":
+                calculator()
+            elif use_calculator == "no":
+                print("\nThank you for visiting! Have a great day!")
+                break
+            else:
+                print("Invalid input. Please enter 'yes' or 'no'.")
+    else:
+        print("\nNo items ordered. Exiting...")
+
+main()
